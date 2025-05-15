@@ -1,2 +1,2 @@
-# deep-learning
-Deep Learning
+# AI Protfolio
+My work in progress AI portfolio
