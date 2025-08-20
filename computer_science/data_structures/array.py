@@ -2,105 +2,116 @@ from typing import Any
 
 
 class Array:
-    """A simple wrapper around Python's list to mimic array behavior."""
+    """Canonical array implementation with standard DSA operations."""
 
-    def __init__(self, size: int, default_value: Any = None) -> None:
-        """Initializes the array with a fixed size and default value.
-
-        Args:
-            size (int): The size of the array.
-            default_value (Any, optional): The default value for each element. Defaults to None.
-        """
-        self.size = size
-        self.data = [default_value] * size
-
-    def append(self, value: Any) -> None:
-        """Appends a value to the end of the array.
+    def __init__(self, size: int) -> None:
+        """Initializes an empty array with a fixed size.
 
         Args:
-            value (Any): The value to append.
+            size (int): Maximum capacity of the array.
         """
-        self.data.append(value)
-        self.size += 1
+        self._size = size
+        self._array = [None] * size
+        self._count = 0
+
+    def get(self, index: int) -> Any:
+        """Returns the element at the specified index.
+
+        Args:
+            index (int): Index of the element to access.
+
+        Raises:
+            IndexError: If index is out of bounds.
+
+        Returns:
+            Any: Value at the specified index.
+        """
+        if 0 <= index < self._count:
+            return self._array[index]
+        raise IndexError("Array index out of bounds")
+
+    def set(self, index: int, value: Any) -> None:
+        """Updates the element at the specified index.
+
+        Args:
+            index (int): Index of the element to update.
+            value (Any): New value to set.
+
+        Raises:
+            IndexError: If index is out of bounds.
+        """
+        if 0 <= index < self._count:
+            self._array[index] = value
+        else:
+            raise IndexError("Array index out of bounds")
 
     def insert(self, index: int, value: Any) -> None:
-        """Inserts a value at the specified index.
+        """Inserts a value at the specified index, shifting elements right.
 
         Args:
-            index (int): The index to insert the value at.
-            value (Any): The value to insert.
+            index (int): Index to insert at.
+            value (Any): Value to insert.
 
         Raises:
-            IndexError: If the index is out of bounds.
+            IndexError: If index is out of bounds.
+            OverflowError: If array is full.
         """
-        if 0 <= index <= self.size:
-            self.data.insert(index, value)
-            self.size += 1
-        else:
+        if not (0 <= index <= self._count):
             raise IndexError("Array index out of bounds")
+        if self._count >= self._size:
+            raise OverflowError("Array is full")
+        for i in range(self._count, index, -1):
+            self._array[i] = self._array[i - 1]
+        self._array[index] = value
+        self._count += 1
 
-    def delete(self, value: Any) -> None:
-        """Deletes the first occurrence of the value from the array.
-
-        Args:
-            value (Any): The value to remove.
-
-        Raises:
-            ValueError: If the value is not found in the array.
-        """
-        self.data.remove(value)
-        self.size -= 1
-
-    def clear(self) -> None:
-        """Removes all elements from the array."""
-        self.data.clear()
-        self.size = 0
-
-    def update(self, index: int, value: Any) -> None:
-        """Updates the value at the specified index.
+    def delete(self, index: int) -> None:
+        """Deletes the element at the specified index, shifting elements left.
 
         Args:
-            index (int): The index of the element to update.
-            value (Any): The new value to set.
+            index (int): Index of the element to delete.
 
         Raises:
-            IndexError: If the index is out of bounds.
+            IndexError: If index is out of bounds.
         """
-        if 0 <= index < self.size:
-            self.data[index] = value
-        else:
+        if not (0 <= index < self._count):
             raise IndexError("Array index out of bounds")
+        for i in range(index, self._count - 1):
+            self._array[i] = self._array[i + 1]
+        self._array[self._count - 1] = None
+        self._count -= 1
 
-    def display(self) -> None:
-        """Displays the elements of the array."""
-        print(self.data)
+    def traverse(self) -> None:
+        """Prints all elements of the array in order."""
+        print([self._array[i] for i in range(self._count)])
+
+    def size(self) -> int:
+        """Returns the current number of elements in the array."""
+        return self._count
 
 
 if __name__ == "__main__":
-    # Demonstrate the usage of the Array class
-    arr = Array(5, default_value=0)
-    print("Initial array:", arr)
+    # Initialize array
+    arr = Array(size=5)
+    print("Initialized array:")
+    arr.traverse()
 
-    # Append element
-    arr.append(20)
-    print("After appending 20:", arr)
-
-    # Insert element
-    arr.insert(1, 15)
-    print("After inserting 15 at index 1:", arr)
-
-    # Delete element
-    arr.delete(10)
-    print("After removing 10:", arr)
+    # Insert elements
+    arr.insert(0, 5)
+    arr.insert(1, 10)
+    arr.insert(1, 7)
+    print("After inserts:")
+    arr.traverse()
 
     # Update element
-    arr.update(2, 25)
-    print("After updating index 2 to 25:", arr)
+    arr.set(1, 15)
+    print("After update:")
+    arr.traverse()
 
-    # Display the array
-    print("Displaying the array:")
-    arr.display()
+    # Delete element
+    arr.delete(0)
+    print("After delete:")
+    arr.traverse()
 
-    # Clear the array
-    arr.clear()
-    print("After clearing the array:", arr)
+    # Size of array
+    print("Current size:", arr.size())
