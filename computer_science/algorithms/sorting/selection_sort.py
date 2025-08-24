@@ -1,5 +1,6 @@
 from typing import Any
 
+
 def selection_sort(array: list[Any]) -> None:
     """
     Sort an array in-place using the selection sort algorithm.

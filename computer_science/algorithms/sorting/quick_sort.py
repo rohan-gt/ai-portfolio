@@ -1,5 +1,6 @@
 from typing import Any
 
+
 def partition(array: list[Any], low: int, high: int) -> int:
     """
     Partition the array using the last element as the pivot.

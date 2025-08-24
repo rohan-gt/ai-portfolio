@@ -1,4 +1,4 @@
-def lcs(X: str, Y: str) -> int:
+def least_common_subsequence(X: str, Y: str) -> int:
     """
     Calculate the length of the longest common subsequence (LCS) of two strings.
 
@@ -31,4 +31,4 @@ def lcs(X: str, Y: str) -> int:
 if __name__ == "__main__":
     X = "AGGTAB"
     Y = "GXTXAYB"
-    print(f"Length of LCS is {lcs(X, Y)}")
+    print(f"Length of LCS is {least_common_subsequence(X, Y)}")

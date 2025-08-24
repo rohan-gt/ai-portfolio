@@ -1,5 +1,6 @@
 from typing import Any
 
+
 def merge_sort(array: list[Any]) -> None:
     """
     Sort an array in-place using the merge sort algorithm.
@@ -18,9 +19,10 @@ def merge_sort(array: list[Any]) -> None:
     Space Complexity:
         O(n) as it requires additional space for merging
     """
-    if len(array) > 1:
+    n = len(array)
+    if n > 1:
         # Divide the array into two halves
-        mid = len(array) // 2
+        mid = n // 2
         left = array[:mid]
         right = array[mid:]
 
