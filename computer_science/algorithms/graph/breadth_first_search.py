@@ -1,7 +1,7 @@
 from collections import deque
 
 
-def bfs(graph: dict[str, set[str]], start: str) -> None:
+def breadth_first_search(graph: dict[str, set[str]], start: str) -> None:
     """
     Perform a breadth-first search (BFS) on a graph.
 
@@ -31,4 +31,4 @@ if __name__ == "__main__":
         "F": {"C", "E"},
     }
     print("Breadth-First Search starting from vertex A:")
-    bfs(graph, "A")
+    breadth_first_search(graph, "A")

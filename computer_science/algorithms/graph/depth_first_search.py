@@ -1,7 +1,7 @@
 from typing import Optional
 
 
-def dfs(
+def depth_first_search(
     graph: dict[str, set[str]], start: str, visited: Optional[set[str]] = None
 ) -> set[str]:
     """
@@ -20,7 +20,7 @@ def dfs(
     visited.add(start)
     print(start, end=" ")
     for next in graph[start] - visited:
-        dfs(graph, next, visited)
+        depth_first_search(graph, next, visited)
     return visited
 
 
@@ -34,4 +34,4 @@ if __name__ == "__main__":
         "F": {"C", "E"},
     }
     print("Depth-First Search starting from vertex A:")
-    dfs(graph, "A")
+    depth_first_search(graph, "A")
