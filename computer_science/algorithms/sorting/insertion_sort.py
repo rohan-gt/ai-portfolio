@@ -1,37 +1,43 @@
-from typing import Any
+from typing import Union
 
 
-def insertion_sort(array: list[Any]) -> None:
+def insertion_sort(array: list[Union[int, float]]) -> list[Union[int, float]]:
     """
-    Sort an array in-place using the insertion sort algorithm.
-
-    Insertion sort builds the final sorted array one item at a time by repeatedly
-    taking elements from the unsorted portion and inserting them into their correct
-    position in the sorted portion.
+    Return a new sorted array using the insertion sort algorithm.
 
     Args:
-        array (list[Any]): The input array to be sorted (modified in-place)
+        array (list[Union[int, float]]): The input array to be sorted
+
+    Returns:
+        list[Union[int, float]]: A new sorted array
 
     Time Complexity:
         O(n²) where n is the length of the array
         Best Case: O(n) when array is already sorted
 
     Space Complexity:
-        O(1) as it only uses a constant amount of extra space
+        O(n) as it creates a copy of the input array
     """
-    n = len(array)
+    # Create a copy of the input array to maintain immutability
+    sorted_array = array.copy()
 
-    # Start from the second element (index 1)
-    for i in range(1, n):
-        # Move backwards through the sorted portion
+    # Start from the second element (index 1) since first element
+    # is considered as sorted portion initially
+    for i in range(1, len(sorted_array)):
+        # Move elements that are greater than current element
+        # to one position ahead of their current position
         for j in range(i - 1, -1, -1):
-            # If current element is greater than next element, swap them
-            if array[j] > array[j + 1]:
-                array[j], array[j + 1] = array[j + 1], array[j]
+            # Compare adjacent elements and shift larger ones right
+            if sorted_array[j] > sorted_array[j + 1]:
+                sorted_array[j], sorted_array[j + 1] = sorted_array[j + 1], sorted_array[j]
+            else:
+                # Stop if we find a smaller element (array is sorted up to this point)
+                break
 
-    return array
+    return sorted_array
 
 if __name__ == "__main__":
     array = [12, 11, 13, 5, 6]
-    insertion_sort(array)
-    print(f"Sorted array is: {array}")
+    sorted_array = insertion_sort(array)
+    print(f"Original array: {array}")
+    print(f"Sorted array: {sorted_array}")

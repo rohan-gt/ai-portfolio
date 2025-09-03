@@ -2,19 +2,19 @@ from typing import Any, Callable, Optional
 
 
 class Heap:
-    """A generic heap class supporting both min-heap and max-heap operations.
+    """Heap implementation supporting both min-heap and max-heap operations.
 
-    Attributes:
-        heap: A list containing the heap elements.
-        compare: A callable that defines the comparison strategy.
+    A complete binary tree structure that maintains the heap property:
+    - For a min-heap: each node is smaller than or equal to its children
+    - For a max-heap: each node is larger than or equal to its children
     """
 
     def __init__(self, compare: Callable[[Any, Any], bool]) -> None:
         """Initializes the heap with a comparison function.
 
         Args:
-            compare: A function that takes two elements and returns True if the
-                first element has higher priority than the second.
+            compare (Callable[[Any, Any], bool]): A function that takes two elements
+                and returns True if the first element has higher priority than the second.
         """
         self.heap: list[Any] = []
         self.compare = compare
@@ -163,3 +163,42 @@ class Heap:
             A string representing the heap.
         """
         return str(self.heap)
+
+
+if __name__ == "__main__":
+    # Example of a min heap
+    def min_heap_compare(a: int, b: int) -> bool:
+        return a < b
+
+    min_heap = Heap(min_heap_compare)
+    print("Min Heap Operations:")
+
+    # Insert some values
+    values = [5, 2, 8, 1, 9, 3]
+    print(f"\nInserting values: {values}")
+    for value in values:
+        min_heap.heappush(value)
+    print(f"Heap after insertions: {min_heap}")
+
+    # Pop values (should come out in ascending order)
+    print("\nPopping values (should be in ascending order):")
+    while len(min_heap) > 0:
+        print(f"Popped: {min_heap.heappop()}")
+
+    # Example of a max heap
+    def max_heap_compare(a: int, b: int) -> bool:
+        return a > b
+
+    max_heap = Heap(max_heap_compare)
+    print("\nMax Heap Operations:")
+
+    # Insert the same values
+    print(f"\nInserting values: {values}")
+    for value in values:
+        max_heap.heappush(value)
+    print(f"Heap after insertions: {max_heap}")
+
+    # Pop values (should come out in descending order)
+    print("\nPopping values (should be in descending order):")
+    while len(max_heap) > 0:
+        print(f"Popped: {max_heap.heappop()}")

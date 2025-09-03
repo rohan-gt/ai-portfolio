@@ -29,7 +29,7 @@ class DoublyLinkedListNode:
 
 
 class SinglyLinkedList:
-    """Canonical singly linked list with head/tail arrows."""
+    """Singly linked list implementation."""
 
     def __init__(self) -> None:
         """Initializes an empty singly linked list."""

@@ -1,42 +1,49 @@
-from typing import Any
+from typing import Union
 
 
-def bubble_sort(array: list[Any]) -> None:
+def bubble_sort(array: list[Union[int, float]]) -> list[Union[int, float]]:
     """
-    Sort an array in-place using the bubble sort algorithm.
-
-    Bubble sort works by repeatedly stepping through the list, comparing adjacent
-    elements and swapping them if they are in the wrong order. The pass through
-    the list is repeated until no swaps are needed.
+    Return a new sorted array using the bubble sort algorithm.
 
     Args:
-        array (list[Any]): The input array to be sorted (modified in-place)
+        array (list[Union[int, float]]): The input array to be sorted
+
+    Returns:
+        list[Union[int, float]]: A new sorted array
 
     Time Complexity:
         O(n²) where n is the length of the array
         Best Case: O(n) when array is already sorted
 
     Space Complexity:
-        O(1) as it only uses a constant amount of extra space
+        O(n) as it creates a copy of the input array
     """
-    n = len(array)
+    # Create a copy of the input array to maintain immutability
+    sorted_array = array.copy()
+    n = len(sorted_array)
+
+    # Traverse through all array elements
     for i in range(n):
-        # Flag to optimize for already sorted arrays
+        # Initialize flag that will allow the function to
+        # terminate if no swaps are needed (array is sorted)
         swapped = False
 
-        # Last i elements are already in place
-        for j in range(0, n - i - 1):
-            # Compare adjacent elements
-            if array[j] > array[j + 1]:
-                array[j], array[j + 1] = array[j + 1], array[j]
+        # Last i elements are already in place, so inner loop can avoid them
+        for j in range(n - i - 1):
+            # Compare adjacent elements and swap if needed
+            if sorted_array[j] > sorted_array[j + 1]:
+                sorted_array[j], sorted_array[j + 1] = sorted_array[j + 1], sorted_array[j]
                 swapped = True
 
-        # If no swaps occurred, array is sorted
+        # If no swapping occurred in this pass, array is sorted
         if not swapped:
             break
+
+    return sorted_array
 
 
 if __name__ == "__main__":
     array = [64, 34, 25, 12, 22, 11, 90]
-    bubble_sort(array)
-    print(f"Sorted array is: {array}")
+    sorted_array = bubble_sort(array)
+    print(f"Original array: {array}")
+    print(f"Sorted array: {sorted_array}")

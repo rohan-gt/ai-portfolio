@@ -2,7 +2,7 @@ from typing import Any
 
 
 class Array:
-    """Canonical array implementation with standard DSA operations."""
+    """Array implementation with standard DSA operations."""
 
     def __init__(self, size: int) -> None:
         """Initializes an empty array with a fixed size.

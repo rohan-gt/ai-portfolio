@@ -3,24 +3,32 @@ from typing import Any, Optional
 
 
 class BinaryTreeNode:
-    """A node in a binary tree."""
+    """Node class for a binary tree structure."""
 
     def __init__(self, data: Any) -> None:
-        """Initialize a binary tree node with given data."""
-        self.data = data
-        self.left: Optional[BinaryTreeNode] = None
-        self.right: Optional[BinaryTreeNode] = None
+        """Initializes a binary tree node with given data.
+
+        Args:
+            data (Any): The value to store in the node.
+        """
+        self._data = data
+        self._left: Optional[BinaryTreeNode] = None
+        self._right: Optional[BinaryTreeNode] = None
 
     def __str__(self) -> str:
-        """Return a string representation of the node."""
-        return str(self.data)
+        """Returns a string representation of the node.
+
+        Returns:
+            str: The string representation of the node's data.
+        """
+        return str(self._data)
 
 
 class BinaryTree:
-    """A binary tree implementation."""
+    """Binary tree implementation with standard traversal operations."""
 
     def __init__(self) -> None:
-        """Initialize an empty binary tree."""
+        """Initializes an empty binary tree."""
         self.root: Optional[BinaryTreeNode] = None
 
     def insert(self, data: Any) -> None:
@@ -33,15 +41,15 @@ class BinaryTree:
         while queue:
             node = queue.popleft()
 
-            if not node.left:
-                node.left = BinaryTreeNode(data)
+            if not node._left:
+                node._left = BinaryTreeNode(data)
                 return
-            queue.append(node.left)
+            queue.append(node._left)
 
-            if not node.right:
-                node.right = BinaryTreeNode(data)
+            if not node._right:
+                node._right = BinaryTreeNode(data)
                 return
-            queue.append(node.right)
+            queue.append(node._right)
 
     def inorder_traversal(self) -> list[Any]:
         """Return a list of node values from an inorder traversal."""
@@ -49,7 +57,7 @@ class BinaryTree:
         def _inorder(node: Optional[BinaryTreeNode]) -> list[Any]:
             if not node:
                 return []
-            return _inorder(node.left) + [node.data] + _inorder(node.right)
+            return _inorder(node._left) + [node._data] + _inorder(node._right)
 
         return _inorder(self.root)
 
@@ -59,7 +67,7 @@ class BinaryTree:
         def _preorder(node: Optional[BinaryTreeNode]) -> list[Any]:
             if not node:
                 return []
-            return [node.data] + _preorder(node.left) + _preorder(node.right)
+            return [node._data] + _preorder(node._left) + _preorder(node._right)
 
         return _preorder(self.root)
 
@@ -69,7 +77,7 @@ class BinaryTree:
         def _postorder(node: Optional[BinaryTreeNode]) -> list[Any]:
             if not node:
                 return []
-            return _postorder(node.left) + _postorder(node.right) + [node.data]
+            return _postorder(node._left) + _postorder(node._right) + [node._data]
 
         return _postorder(self.root)
 
@@ -83,12 +91,12 @@ class BinaryTree:
 
         while queue:
             node = queue.popleft()
-            result.append(node.data)
+            result.append(node._data)
 
-            if node.left:
-                queue.append(node.left)
-            if node.right:
-                queue.append(node.right)
+            if node._left:
+                queue.append(node._left)
+            if node._right:
+                queue.append(node._right)
 
         return result
 
@@ -98,10 +106,32 @@ class BinaryTree:
         def _height(node: Optional[BinaryTreeNode]) -> int:
             if not node:
                 return -1
-            return 1 + max(_height(node.left), _height(node.right))
+            return 1 + max(_height(node._left), _height(node._right))
 
         return _height(self.root)
 
     def __str__(self) -> str:
         """Return a string representation of the tree using level-order traversal."""
         return str(self.level_order_traversal())
+
+
+if __name__ == "__main__":
+    # Create a binary tree and test its operations
+    tree = BinaryTree()
+
+    # Insert some values
+    values = [1, 2, 3, 4, 5, 6, 7]
+    print("Inserting values:", values)
+    for value in values:
+        tree.insert(value)
+
+    # Test different traversals
+    print("\nTree Traversals:")
+    print(f"Inorder:      {tree.inorder_traversal()}")
+    print(f"Preorder:     {tree.preorder_traversal()}")
+    print(f"Postorder:    {tree.postorder_traversal()}")
+    print(f"Level-order:  {tree.level_order_traversal()}")
+
+    # Test other properties
+    print(f"\nTree height: {tree.height()}")
+    print(f"Tree representation: {tree}")

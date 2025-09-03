@@ -1,62 +1,76 @@
-from typing import Any
+from typing import Union
 
 
-def merge_sort(array: list[Any]) -> None:
+def merge(left: list[Union[int, float]], right: list[Union[int, float]]) -> list[Union[int, float]]:
     """
-    Sort an array in-place using the merge sort algorithm.
-
-    Merge sort uses the divide-and-conquer strategy. It divides the input array into
-    two halves, recursively sorts them, and then merges the sorted halves to
-    produce a sorted array.
+    Merge two sorted arrays into a single sorted array.
 
     Args:
-        array (list[Any]): The input array to be sorted (modified in-place)
+        left (list[Union[int, float]]): First sorted array
+        right (list[Union[int, float]]): Second sorted array
+
+    Returns:
+        list[Union[int, float]]: A new sorted array containing all elements from both input arrays
+
+    Space Complexity:
+        O(n) where n is the total length of both input arrays
+    """
+    sorted_array = []
+    i = j = 0
+
+    # Compare elements from both arrays and take the smaller one
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            sorted_array.append(left[i])
+            i += 1
+        else:
+            sorted_array.append(right[j])
+            j += 1
+
+    # Add any remaining elements (if any)
+    sorted_array.extend(left[i:])
+    sorted_array.extend(right[j:])
+
+    return sorted_array
+
+
+def merge_sort(array: list[Union[int, float]]) -> list[Union[int, float]]:
+    """
+    Return a new sorted array using the merge sort algorithm.
+
+    Args:
+        array (list[Union[int, float]]): The input array of numbers to be sorted
+
+    Returns:
+        list[Union[int, float]]: A new sorted array
 
     Time Complexity:
         O(n log n) for all cases (best, average, and worst)
-        where n is the length of the array
 
     Space Complexity:
-        O(n) as it requires additional space for merging
+        O(n) for storing temporary arrays during merging
+        O(log n) additional space for the recursive call stack
     """
-    n = len(array)
-    if n > 1:
-        # Divide the array into two halves
-        mid = n // 2
-        left = array[:mid]
-        right = array[mid:]
+    # Base case: arrays of length 0 or 1 are already sorted
+    if len(array) <= 1:
+        return array.copy()
 
-        # Recursively sort both halves
-        merge_sort(left)
-        merge_sort(right)
+    # Divide step: split array into two roughly equal halves
+    # This ensures O(log n) levels of recursion
+    mid = len(array) // 2
 
-        # Initialize pointers for merging
-        i = j = k = 0
+    # Recursively sort the left and right halves
+    # Each recursive call works on a subset of the original array
+    left = merge_sort(array[:mid])
+    right = merge_sort(array[mid:])
 
-        # Merge the sorted halves
-        while i < len(left) and j < len(right):
-            if left[i] <= right[j]:
-                array[k] = left[i]
-                i += 1
-            else:
-                array[k] = right[j]
-                j += 1
-            k += 1
-
-        # Check for remaining elements in left half
-        while i < len(left):
-            array[k] = left[i]
-            i += 1
-            k += 1
-
-        # Check for remaining elements in right half
-        while j < len(right):
-            array[k] = right[j]
-            j += 1
-            k += 1
+    # Merge step: combine two sorted arrays into one
+    # This is where the actual combining of sorted sequences happens
+    return merge(left, right)
 
 
 if __name__ == "__main__":
     array = [12, 11, 13, 5, 6, 7]
-    merge_sort(array)
-    print(f"Sorted array is: {array}")
+    sorted_array = merge_sort(array)
+    print(f"Original array: {array}")
+    print(f"Sorted array: {sorted_array}")
