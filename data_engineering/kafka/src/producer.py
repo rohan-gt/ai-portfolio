@@ -33,7 +33,6 @@ def say_hello(producer: Producer, key: str) -> None:
 
 
 if __name__ == "__main__":
-
     # Initialize the Kafka producer with the loaded configuration
     producer = Producer(config)
 

@@ -8,9 +8,9 @@ from config import config
 def set_consumer_configs(config) -> None:
     """Set additional configurations for the Kafka consumer."""
 
-    config['group.id'] = 'hello_group'
-    config['auto.offset.reset'] = 'earliest'
-    config['enable.auto.commit'] = False
+    config["group.id"] = "hello_group"
+    config["auto.offset.reset"] = "earliest"
+    config["enable.auto.commit"] = False
     return config
 
 
@@ -27,7 +27,6 @@ def assignment_callback(consumer: Consumer, partitions: list[TopicPartition]) ->
 
 
 if __name__ == "__main__":
-
     # Configure the consumer settings
     config = set_consumer_configs(config)
 
